@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YACINE ZONE | تحدي التخمين</title>
+<style>
+:root{--bg:#080b16;--panel:#11182b;--panel2:#17213a;--text:#f4f7ff;--muted:#aab5d0;--cyan:#35e6ff;--purple:#a56bff;--green:#43e6a0;--red:#ff6685}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 5%,#1b2250 0,transparent 35%),radial-gradient(circle at 90% 25%,#102d45 0,transparent 30%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px max(5%,calc((100% - 1100px)/2));border-bottom:1px solid #ffffff18;position:sticky;top:0;background:#080b16dc;backdrop-filter:blur(12px);z-index:3}
+.logo{font-size:1.35rem;font-weight:900;letter-spacing:1px}.logo span{color:var(--cyan)}.players{color:var(--muted);font-size:.9rem}.players b{color:var(--green)}
+main{max-width:1100px;margin:auto;padding:30px 18px 60px}.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;margin:12px 0 28px}
+.hero h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.2;margin:0 0 14px}.hero h1 em{font-style:normal;color:var(--cyan);text-shadow:0 0 25px #35e6ff50}.hero p{color:var(--muted);line-height:1.9}.hero img{width:100%;height:260px;object-fit:cover;border-radius:24px;border:1px solid #35e6ff66;box-shadow:0 0 35px #35e6ff18}
+.panel{background:linear-gradient(145deg,#151d33f2,#0f1526f5);border:1px solid #ffffff17;border-radius:22px;padding:24px;box-shadow:0 18px 55px #0003}.hidden{display:none!important}.section-title{margin:0 0 8px;font-size:1.4rem}.sub{color:var(--muted);margin:0 0 20px;line-height:1.7}
+label{display:block;margin-bottom:8px;color:#dce6ff}input{width:100%;background:#080e1e;border:1px solid #384768;color:white;padding:14px 15px;border-radius:12px;font-size:1rem;outline:none}input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #35e6ff18}
+button{font-family:inherit;cursor:pointer;border:0;border-radius:12px;padding:13px 18px;font-weight:800;font-size:1rem;transition:.2s}button:hover{transform:translateY(-2px);filter:brightness(1.08)}.primary{background:linear-gradient(100deg,var(--cyan),#8b8aff);color:#07101c}.secondary{background:#202b47;color:#eaf0ff;border:1px solid #ffffff16}.startrow{display:flex;gap:12px;margin-top:14px}.startrow button{flex:1}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.category{padding:0;overflow:hidden;text-align:right;background:#111a2d;border:1px solid #ffffff20;color:white;border-radius:17px}.category img{display:block;width:100%;height:120px;object-fit:cover;opacity:.88}.category .cattext{padding:13px}.category strong{display:block;font-size:1.05rem;margin-bottom:5px}.category small{color:var(--muted)}.category.selected{border:2px solid var(--cyan);box-shadow:0 0 22px #35e6ff25}
+.quiztop{display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--muted);margin-bottom:15px}.bar{height:8px;background:#26314c;border-radius:99px;overflow:hidden;margin-bottom:22px}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));width:0;transition:width .3s}
+.question{font-size:1.35rem;line-height:1.7;margin:8px 0 20px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}.answer{text-align:right;background:#19233b;color:#f4f7ff;border:1px solid #ffffff18;min-height:58px}.answer.correct{background:#123d35;border-color:var(--green)}.answer.wrong{background:#451e31;border-color:var(--red)}.answer:disabled{cursor:default;transform:none}.feedback{min-height:28px;margin:14px 0;color:var(--muted)}.quizactions{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.resultscore{font-size:3.2rem;font-weight:900;color:var(--cyan);margin:10px 0}.leaderboard{margin-top:24px}.leaderboard table{width:100%;border-collapse:collapse;text-align:right}.leaderboard th,.leaderboard td{padding:12px 8px;border-bottom:1px solid #ffffff12}.leaderboard th{color:var(--muted);font-size:.9rem}.rank{color:var(--cyan);font-weight:bold}.foot{text-align:center;color:#8491af;font-size:.85rem;margin-top:30px;line-height:1.8}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.hero img{height:190px}.categories{grid-template-columns:repeat(2,1fr)}.answers{grid-template-columns:1fr}.panel{padding:18px}header{padding:16px}.players{font-size:.8rem}}
+@media(max-width:420px){.categories{grid-template-columns:1fr}.category{display:grid;grid-template-columns:110px 1fr;text-align:right}.category img{height:100%;min-height:90px}.startrow{flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="logo">YACINE <span>ZONE</span></div><div class="players">👥 عدد اللاعبين على هذا الجهاز: <b id="playerCount">0</b></div></header>
+<main>
+<section class="hero">
+ <div><h1>هل أنت مستعد<br>لـ <em>تحدي التخمين؟</em></h1><p>اختبر معلوماتك، اختر مجالك المفضل، وأجب عن 10 أسئلة. كل إجابة صحيحة تساوي 10 نقاط. هل ستتصدر قائمة الأبطال؟</p></div>
+ <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=85" alt="أجواء ألعاب إلكترونية">
+</section>
+<section class="panel" id="welcome">
+ <h2 class="section-title">1. ما اسمك يا بطل؟</h2><p class="sub">اكتب اسمك أولاً حتى نسجل مشاركتك ونتيجتك في قائمة المتصدرين على هذا الجهاز.</p>
+ <label for="playerName">اسم اللاعب</label><input id="playerName" maxlength="24" placeholder="مثلاً: Yacine" autocomplete="nickname">
+ <div class="startrow"><button class="primary" id="toCategories">اختيار المجال ←</button></div>
+</section>
+<section class="panel hidden" id="categoryPanel">
+ <h2 class="section-title">2. اختر مجال التحدي</h2><p class="sub">أهلاً <b id="welcomeName"></b>! اختر مجالاً واحداً؛ كل جولة فيها 10 أسئلة وأربع إجابات محتملة.</p>
+ <div class="categories" id="categories"></div>
+ <div class="startrow"><button class="primary" id="startQuiz" disabled>ابدأ التحدي 🚀</button><button class="secondary" id="backName">رجوع</button></div>
+</section>
+<section class="panel hidden" id="quizPanel">
+ <div class="quiztop"><span id="categoryLabel">المجال</span><span>السؤال <b id="qNum">1</b> / 10　|　⭐ <b id="score">0</b></span></div>
+ <div class="bar"><span id="progress"></span></div>
+ <div class="question" id="questionText"></div>
+ <div class="answers" id="answers"></div>
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+ <div class="quizactions"><span id="answerCount">أجب عن السؤال</span><button class="primary" id="nextQuestion" disabled>السؤال التالي ←</button></div>
+</section>
+<section class="panel hidden" id="resultPanel">
+ <h2 class="section-title" id="resultTitle">انتهى التحدي!</h2><p class="sub" id="resultSub"></p>
+ <div class="resultscore"><span id="finalScore">0</span><small style="font-size:1.1rem;color:#aab5d0"> / 100 نقطة</small></div>
+ <p id="resultMessage"></p>
+ <div class="startrow"><button class="primary" id="tryAgain">تحدٍ جديد</button><button class="secondary" id="changeName">تغيير الاسم</button></div>
+</section>
+<section class="panel leaderboard" id="leaderboardPanel">
+ <h2 class="section-title">🏆 لوحة المتصدرين</h2><p class="sub">أفضل النتائج المسجلة على هذا المتصفح.</p>
+ <div id="leaderboard"></div>
+</section>
+<p class="foot">YACINE ZONE · تحدَّ نفسك وارجع أقوى!<br>ملاحظة: هذه النسخة تحفظ النتائج على نفس الجهاز والمتصفح فقط. إحصاء جميع زوار الموقع من أجهزة مختلفة يحتاج قاعدة بيانات وخادماً.</p>
+</main>
+<script>
+const categoriesData = [
+ {id:"anime",name:"الأنمي",icon:"🎌",desc:"شخصيات وعوالم الأنمي",img:"https://images.unsplash.com/photo-1578632767115-351029f7e4e8?auto=format&fit=crop&w=600&q=80",questions:[
+ ["من هو بطل أنمي One Piece؟",["لوفي","ناروتو","إيتشيغو","غون"],0],
+ ["ما اسم القرية التي ينتمي إليها ناروتو؟",["قرية الرمل","قرية الورق","قرية الضباب","قرية الصوت"],1],
+ ["من هو صديق غوكو السايان الذي أصبح حليفه؟",["فريزا","سيل","فيجيتا","بيروس"],2],
+ ["ما اسم أخ إيتاتشي؟",["كاكاشي","ساسكي","ساكورا","شيكامارو"],1],
+ ["في أي أنمي تظهر شخصية إدوارد إلريك؟",["Death Note","Bleach","Fullmetal Alchemist","Demon Slayer"],2],
+ ["ما اسم دفتر القتل في Death Note؟",["Black Book","Death Note","Soul Book","Dark Paper"],1],
+ ["من هو بطل Demon Slayer؟",["تانجيرو","زينيتسو","إينوسكي","غيو"],0],
+ ["ما القوة الأساسية للعملاق المؤسس في Attack on Titan؟",["التحكم بالعمالقة","الطيران","إيقاف الزمن","قراءة الأفكار"],0],
+ ["ما اسم معلم فريق 7 في Naruto؟",["جيرايا","أوروتشيمارو","كاكاشي","ميناتو"],2],
+ ["من هو بطل Dragon Ball؟",["غوهان فقط","غوكو","ترانكس","كريلين"],1]]},
+ {id:"countries",name:"البلدان",icon:"🌍",desc:"جغرافيا وعواصم وأعلام",img:"https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80",questions:[
+ ["ما عاصمة اليابان؟",["سيول","بكين","طوكيو","بانكوك"],2],["أي دولة تشتهر بالأهرامات في الجيزة؟",["المغرب","مصر","تونس","الأردن"],1],
+ ["ما أكبر دولة في العالم من حيث المساحة؟",["كندا","الصين","الولايات المتحدة","روسيا"],3],["في أي قارة تقع الأرجنتين؟",["أوروبا","آسيا","أمريكا الجنوبية","أفريقيا"],2],
+ ["ما عاصمة الجزائر؟",["وهران","قسنطينة","الجزائر العاصمة","عنابة"],2],["أي دولة علمها يحتوي على ورقة قيقب؟",["أستراليا","كندا","النرويج","ألمانيا"],1],
+ ["ما المحيط الأكبر في العالم؟",["الأطلسي","الهندي","المتجمد الشمالي","الهادئ"],3],["ما عاصمة إيطاليا؟",["ميلانو","روما","البندقية","نابولي"],1],
+ ["أي دولة تُعرف ببلاد الشمس المشرقة؟",["اليابان","الهند","تايلاند","إندونيسيا"],0],["ما أعلى جبل في العالم؟",["K2","إيفرست","كليمنجارو","مون بلان"],1]]},
+ {id:"cars",name:"السيارات",icon:"🏎️",desc:"ماركات ومحركات وسيارات",img:"https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=600&q=80",questions:[
+ ["ما بلد شركة Toyota؟",["ألمانيا","اليابان","كوريا الجنوبية","إيطاليا"],1],["ما الشركة التي تصنع Mustang؟",["Chevrolet","BMW","Ford","Dodge"],2],
+ ["ما شعار Ferrari الشهير؟",["حصان جامح","نجمة","أسد","صقر"],0],["أي شركة تصنع سيارة Golf؟",["Volkswagen","Audi","Renault","Honda"],0],
+ ["ما بلد شركة Mercedes-Benz؟",["فرنسا","ألمانيا","السويد","إسبانيا"],1],["أي نوع محرك يرتبط غالباً بسيارات Tesla؟",["بخاري","كهربائي","ديزل فقط","دوّار فقط"],1],
+ ["ما الشركة المالكة لعلامة Lamborghini؟",["Toyota","Volkswagen Group","Ford","Hyundai"],1],["ما بلد شركة Hyundai؟",["الصين","كوريا الجنوبية","اليابان","الهند"],1],
+ ["أي سيارة تشتهر باسم GT-R؟",["Nissan","Peugeot","Fiat","Volvo"],0],["ما وظيفة حزام الأمان؟",["زيادة السرعة","تقليل إصابات التصادم","تبريد المحرك","تقليل استهلاك الوقود"],1]]},
+ {id:"general",name:"ثقافة عامة",icon:"🧠",desc:"علوم ومعلومات متنوعة",img:"https://images.unsplash.com/photo-1453738773917-9c3eff1db985?auto=format&fit=crop&w=600&q=80",questions:[
+ ["ما الكوكب المعروف بالكوكب الأحمر؟",["الزهرة","المريخ","المشتري","عطارد"],1],["كم عدد أضلاع المثلث؟",["2","3","4","5"],1],
+ ["ما الغاز الذي تمتصه النباتات من الهواء؟",["الأكسجين","الهيليوم","ثاني أكسيد الكربون","الهيدروجين"],2],["كم دقيقة في ساعتين؟",["60","90","100","120"],3],
+ ["ما العضو الذي يضخ الدم في جسم الإنسان؟",["الرئة","القلب","الكبد","الكلى"],1],["ما أقرب نجم إلى الأرض؟",["الشمس","سيريوس","الشعرى اليمانية","النجم القطبي"],0],
+ ["كم عدد أيام السنة الكبيسة؟",["364","365","366","367"],2],["ما المادة الطبيعية الأشد صلابة؟",["الحديد","الذهب","الألماس","الكوارتز"],2],
+ ["ما لغة البرمجة المستخدمة لبناء تفاعلات صفحات الويب؟",["JavaScript","SQL فقط","Photoshop","Excel"],0],["ما وحدة قياس شدة التيار الكهربائي؟",["الفولت","الأمبير","الواط","الأوم"],1]]},
+ {id:"animals",name:"الحيوانات",icon:"🐾",desc:"عالم الحيوانات المدهش",img:"https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=600&q=80",questions:[
+ ["ما أسرع حيوان بري؟",["الأسد","الفهد الصياد","الحصان","الغزال"],1],["ما أكبر حيوان على الأرض؟",["الفيل الأفريقي","القرش الأبيض","الحوت الأزرق","الزرافة"],2],
+ ["أي حيوان يُلقب بسفينة الصحراء؟",["الحصان","الجمل","اللاما","الحمار الوحشي"],1],["كم عدد أرجل العنكبوت؟",["6","8","10","12"],1],
+ ["ما الثديي الذي يستطيع الطيران الحقيقي؟",["السنجاب","الخفاش","البطريق","النعامة"],1],["ماذا يأكل الباندا غالباً؟",["الخيزران","السمك","اللحوم","الحبوب فقط"],0],
+ ["أي حيوان يُعرف بتغيير لونه للتمويه؟",["الحرباء","الذئب","الدب","الكنغر"],0],["ما اسم صغير الضفدع؟",["يرقة","شرغوف","جرو","مهر"],1],
+ ["أي طائر لا يستطيع الطيران؟",["النسر","الصقر","النعامة","السنونو"],2],["ما الحيوان الذي يمتلك خرطوماً؟",["وحيد القرن","الفيل","فرس النهر","الجاموس"],1]]},
+ {id:"football",name:"لاعبو كرة القدم",icon:"⚽",desc:"نجوم ومهارات وملاعب",img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=600&q=80",questions:[
+ ["من اللاعب المعروف بلقب CR7؟",["ليونيل ميسي","كريستيانو رونالدو","نيمار","كيليان مبابي"],1],["ما المنتخب الذي فاز بكأس العالم 2022؟",["فرنسا","البرازيل","الأرجنتين","كرواتيا"],2],
+ ["أي مركز يرتدي القفازات عادة؟",["المهاجم","حارس المرمى","قلب الدفاع","الجناح"],1],["من اللاعب الأرجنتيني الذي اشتهر بالرقم 10؟",["ميسي","مودريتش","هالاند","كاين"],0],
+ ["أي نادٍ إسباني يُلقب بالملكي؟",["برشلونة","أتلتيكو مدريد","ريال مدريد","إشبيلية"],2],["ما جنسية محمد صلاح؟",["مغربي","مصري","جزائري","تونسي"],1],
+ ["كم لاعباً يبدأ به كل فريق مباراة كرة القدم داخل الملعب؟",["9","10","11","12"],2],["أي لاعب فرنسي فاز بالكرة الذهبية لعام 2022؟",["زين الدين زيدان","كريم بنزيما","مبابي","غريزمان"],1],
+ ["ما المنتخب المعروف بلقب السيليساو؟",["البرازيل","إيطاليا","ألمانيا","البرتغال"],0],["أي لاعب اشتهر بمهارة المراوغة ورقم 10 مع برشلونة والأرجنتين؟",["ميسي","راموس","بوفون","ليفاندوفسكي"],0]]}
+];
+const $=id=>document.getElementById(id);
+let player="", selected=null, questions=[], index=0, score=0, locked=false;
+const getScores=()=>{try{return JSON.parse(localStorage.getItem("yz_scores")||"[]")}catch{return []}};
+const getPlayers=()=>{try{return JSON.parse(localStorage.getItem("yz_players")||"[]")}catch{return []}};
+function updateStats(){ $("playerCount").textContent=getPlayers().length; renderLeaderboard(); }
+function renderLeaderboard(){const arr=getScores().sort((a,b)=>b.score-a.score||a.date-b.date).slice(0,10);if(!arr.length){$("leaderboard").innerHTML='<p class="sub">لا توجد نتائج بعد. كن أول من يخوض التحدي!</p>';return}
+$("leaderboard").innerHTML='<table><thead><tr><th>#</th><th>اللاعب</th><th>المجال</th><th>النقاط</th></tr></thead><tbody>'+arr.map((x,i)=>`<tr><td class="rank">${i+1}</td><td>${escapeHTML(x.name)}</td><td>${escapeHTML(x.category)}</td><td><b>${x.score}/100</b></td></tr>`).join("")+'</tbody></table>'}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function show(id){["welcome","categoryPanel","quizPanel","resultPanel"].forEach(x=>$(x).classList.toggle("hidden",x!==id))}
+function renderCategories(){$("categories").innerHTML=categoriesData.map(c=>`<button class="category ${selected===c.id?"selected":""}" data-id="${c.id}"><img src="${c.img}" alt="${c.name}" loading="lazy"><div class="cattext"><strong>${c.icon} ${c.name}</strong><small>${c.desc}</small></div></button>`).join("");document.querySelectorAll(".category").forEach(b=>b.onclick=()=>{selected=b.dataset.id;renderCategories();$("startQuiz").disabled=false})}
+$("toCategories").onclick=()=>{player=$("playerName").value.trim();if(!player){$("playerName").focus();$("playerName").style.borderColor="var(--red)";return}$("playerName").style.borderColor="";const people=getPlayers();if(!people.some(n=>n.toLowerCase()===player.toLowerCase())){people.push(player);localStorage.setItem("yz_players",JSON.stringify(people))}$("welcomeName").textContent=player;selected=null;$("startQuiz").disabled=true;renderCategories();updateStats();show("categoryPanel")};
+$("backName").onclick=()=>show("welcome");
+$("startQuiz").onclick=()=>{const cat=categoriesData.find(c=>c.id===selected);if(!cat)return;questions=cat.questions;index=0;score=0;locked=false;$("categoryLabel").textContent=cat.icon+" "+cat.name;show("quizPanel");renderQuestion()};
+function renderQuestion(){locked=false;const q=questions[index];$("qNum").textContent=index+1;$("score").textContent=score;$("progress").style.width=(index/10*100)+"%";$("questionText").textContent=q[0];$("feedback").textContent="";$("answerCount").textContent="اختر إجابة واحدة";$("nextQuestion").disabled=true;$("nextQuestion").textContent=index===9?"عرض النتيجة 🏆":"السؤال التالي ←";$("answers").innerHTML=q[1].map((a,i)=>`<button class="answer">${["A","B","C","D"][i]} · ${a}</button>`).join("");document.querySelectorAll(".answer").forEach((b,i)=>b.onclick=()=>chooseAnswer(i))}
+function chooseAnswer(i){if(locked)return;locked=true;const correct=questions[index][2];document.querySelectorAll(".answer").forEach((b,j)=>{b.disabled=true;if(j===correct)b.classList.add("correct");if(j===i&&j!==correct)b.classList.add("wrong")});if(i===correct){score+=10;$("feedback").textContent="✅ إجابة صحيحة! +10 نقاط";$("feedback").style.color="var(--green)"}else{$("feedback").textContent="❌ إجابة غير صحيحة. الإجابة الصحيحة: "+questions[index][1][correct];$("feedback").style.color="var(--red)"}$("score").textContent=score;$("answerCount").textContent="تمت الإجابة";$("nextQuestion").disabled=false}
+$("nextQuestion").onclick=()=>{if(!locked)return;if(index<9){index++;renderQuestion()}else finishQuiz()};
+function finishQuiz(){const cat=categoriesData.find(c=>c.id===selected);const scores=getScores();scores.push({name:player,category:cat.name,score,date:Date.now()});localStorage.setItem("yz_scores",JSON.stringify(scores));$("progress").style.width="100%";$("finalScore").textContent=score;$("resultTitle").textContent=score===100?"أسطورة التخمين! 🏆":score>=70?"أداء رائع يا "+player+"!":"انتهى التحدي يا "+player+"!";$("resultSub").textContent="أكملت 10 أسئلة في مجال "+cat.name+"."; $("resultMessage").textContent=score===100?"علامة كاملة! أنت بطل هذا المجال.":score>=70?"ممتاز! جرّب مجالاً آخر لتحطم رقمك.":"لا تستسلم؛ تعلّم من الإجابات وحاول مجدداً.";show("resultPanel");updateStats()}
+$("tryAgain").onclick=()=>{selected=null;renderCategories();$("startQuiz").disabled=true;show("categoryPanel")};$("changeName").onclick=()=>{show("welcome");$("playerName").value=player};
+updateStats();
+</script>
+</body>
+</html>
